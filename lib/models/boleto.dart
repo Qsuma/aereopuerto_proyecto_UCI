@@ -5,34 +5,34 @@ class ListarBoleto {
     required this.results,
   });
 
-  List<Vuelo> results;
+  List<Boleto> results;
 
   factory ListarBoleto.fromJson(String str) =>
       ListarBoleto.fromMap(json.decode(str));
 
   factory ListarBoleto.fromMap(List<dynamic> json) => ListarBoleto(
-        results: List<Vuelo>.from(json.map((x) => Vuelo.fromJson(x))),
+        results: List<Boleto>.from(json.map((x) => Boleto.fromJson(x))),
       );
 }
-class Vuelo {
+class Boleto {
     int idboleto;
     int asiento;
     int cdigo;
 
-    Vuelo({
+    Boleto({
         required this.idboleto,
         required this.asiento,
         required this.cdigo,
     });
 
-    factory Vuelo.fromRawJson(String str) => Vuelo.fromJson(json.decode(str));
+    factory Boleto.fromRawJson(String str) => Boleto.fromJson(json.decode(str));
 
     String toRawJson() => json.encode(toJson());
 
-    factory Vuelo.fromJson(Map<String, dynamic> json) => Vuelo(
+    factory Boleto.fromJson(Map<String, dynamic> json) => Boleto(
         idboleto: json["idboleto"],
         asiento: json["asiento"],
-        cdigo: json["codigo"],
+        cdigo: json["cÃ³digo"],
     );
 
     Map<String, dynamic> toJson() => {

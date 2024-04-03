@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class BoletoProvider extends ChangeNotifier{
-List<Vuelo> boletos =[];
+List<Boleto> boletos =[];
 
 
 int page =0;
@@ -24,7 +24,7 @@ final url =Uri.http(_baseUrl,endpoint,{});
       
       });
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200||response.statusCode == 200) {
       return response.body;
     } else {
       throw Exception('Error al crear los datos: ${response.statusCode}');
@@ -78,11 +78,7 @@ Future<String> _patchBoleto(String endpoint,Map<String,dynamic> body) async {
 final url =Uri.http(_baseUrl,endpoint,{});
 
     try {
-    final response = await http.patch(url,body:body , headers: {
-      'auth-token': prefs.token
-      
-      
-      });
+    final response = await http.patch(url,body:body);
 
     if (response.statusCode == 200) {
       return response.body;
@@ -131,7 +127,7 @@ patchBoleto(String idboleto, String asiento, String codigo) async {
 
   // Suponiendo que el servidor devuelve el vuelo actualizado en formato JSON
   final updatedBoletoJson = json.decode(responseBody);
-  final updatedBoleto = Vuelo.fromJson(updatedBoletoJson);
+  final updatedBoleto = Boleto.fromJson(updatedBoletoJson);
 
   boletos = boletos.map((boleto) {
     if (boleto.idboleto == updatedBoleto.idboleto) {
@@ -145,14 +141,15 @@ patchBoleto(String idboleto, String asiento, String codigo) async {
 }
 postBoleto(String asiento, String codigo ) async {
    final body = {
-    "asiento": null,
-    "codigo": null
+   // "idboleto":"67",
+    "asiento": asiento,
+    "código": codigo
 };
  final responseBody = await _postBoleto('/core/api/v1/Boleto/', body);
 
  // Suponiendo que el servidor devuelve el Boleto actualizado en formato JSON
  final updatedBoletoJson = json.decode(responseBody);
- final updatedBoleto = Vuelo.fromJson(updatedBoletoJson);
+ final updatedBoleto = Boleto.fromJson(updatedBoletoJson);
 
  // Actualizar la lista de boletos con el boleto actualizado
  boletos.add(updatedBoleto);

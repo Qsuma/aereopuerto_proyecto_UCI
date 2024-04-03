@@ -1,18 +1,20 @@
 import 'package:aereopuerto/screens/login_screen.dart';
+import 'package:aereopuerto/utils/preferencias_usuario.dart';
 import 'package:aereopuerto/utils/route_animation.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+   const MyDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+     PreferenciasUsuario prefs =PreferenciasUsuario();
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          const UserAccountsDrawerHeader(
-            accountName: Text('Usuario'), // Nombre del usuario
+           UserAccountsDrawerHeader(
+            accountName: Text(prefs.usuario), // Nombre del usuario
             accountEmail: Text('usuario@example.com'), // Email del usuario
             currentAccountPicture: CircleAvatar(
               backgroundImage:AssetImage('assets/perfil.jpeg'), // Imagen de perfil

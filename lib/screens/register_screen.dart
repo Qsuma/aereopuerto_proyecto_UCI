@@ -207,7 +207,7 @@ class RegisterScreen extends StatelessWidget {
     if (info['ok']) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Registro Exitoso')));
-      Navigator.of(context).pushReplacementNamed('login');
+ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
     } else {
       Alarm().showAlarm(
           context, 'Existe Mail', 'Error!!!');
@@ -224,12 +224,12 @@ Widget _crearName(LoginBloc bloc) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: TextField(
-          keyboardType: TextInputType.name,
+          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-            hintText: 'Digite s nombre',
-            labelText: 'Nombre',
+            hintText: 'Digite su Carnet',
+            labelText: 'Carnet',
             errorText: snapshot.error?.toString(),
             suffixIcon: const Icon(Icons.account_circle_sharp),
           ),
@@ -252,8 +252,8 @@ Widget _crearApellidos(LoginBloc bloc) {
           decoration: InputDecoration(
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-            hintText: 'Digite su Apellido',
-            labelText: 'Apellido',
+            hintText: 'Digite su Nombre de Usuario',
+            labelText: 'Nombre de Usuario',
             errorText: snapshot.error?.toString(),
             suffixIcon: const Icon(Icons.account_circle_sharp),
           ),

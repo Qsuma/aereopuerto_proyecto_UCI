@@ -1,9 +1,13 @@
 import 'package:aereopuerto/providers/bloc/loguinBloc/provider.dart';
 import 'package:aereopuerto/providers/boleto_provider.dart';
+import 'package:aereopuerto/providers/reservacion_provider.dart';
 import 'package:aereopuerto/providers/vuelos_provider.dart';
 import 'package:aereopuerto/screens/boletos_screen.dart';
 import 'package:aereopuerto/screens/home_screen.dart';
 import 'package:aereopuerto/screens/login_screen.dart';
+import 'package:aereopuerto/screens/register_screen.dart';
+import 'package:aereopuerto/screens/reservacion_screen.dart';
+import 'package:aereopuerto/screens/vuelos_screen.dart';
 import 'package:aereopuerto/ui/theme.dart';
 import 'package:aereopuerto/utils/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +29,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => VuelosProvider(),),
-        ChangeNotifierProvider(create: (context) => BoletoProvider(),)
+        ChangeNotifierProvider(create: (context) => BoletoProvider(),),
+        ChangeNotifierProvider(create: (context) => ReservacionProvider(),)
       ],
       child: ProviderP(
         
@@ -33,7 +38,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: theme,
-          home:  HomeScreen(),
+          home:  const LoginScreen(),
         ),
       ),
     );

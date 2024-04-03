@@ -1,15 +1,21 @@
 import 'dart:convert';
 
 
-import 'package:aereopuerto/models/Vuelo.dart';
+
+import 'package:aereopuerto/models/vuelo.dart';
 import 'package:aereopuerto/utils/preferencias_usuario.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class VuelosProvider extends ChangeNotifier{
+  
 List<Vuelo> Vuelos =[];
-
+VuelosProvider(
+  
+){
+getVuelos();
+}
 
 int page =0;
 final String _baseUrl ='192.168.2.103:80';
@@ -53,16 +59,12 @@ final url =Uri.http(_baseUrl,endpoint,{});
     return'Error al realizar la solicitud: $e';
  }
   }
-Future<String> _getJsonData(String endpoint, {int page = 1}) async {
+Future<String> _getJsonData(String endpoint) async {
  final prefs = PreferenciasUsuario();  
 final url =Uri.http(_baseUrl,endpoint,{});
 
     try {
-    final response = await http.get(url, headers: {
-      'auth-token': prefs.token
-      
-      
-      });
+    final response = await http.get(url);
 
     if (response.statusCode == 200) {
       return response.body;
@@ -94,19 +96,19 @@ final url =Uri.http(_baseUrl,endpoint,{});
  }
   }  
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-getVuelos()async{
+Future <List<Vuelo>> getVuelos()async{
   final jsonData = await _getJsonData('/core/api/v1/Vuelo/');
-  final VuelosResponse = ListarVuelos.fromJson(jsonData);
+  final VuelosResponse = ListarVueloss.fromJson(jsonData);
   Vuelos=VuelosResponse.results;
   notifyListeners();
-  return ;
+  return  VuelosResponse.results;
 }
 deleteVuelos(String id)async{
   final response = await _deleteVuelo('/core/api/v1/Vuelo/$id/');
   if (response == 'Eliminado Con Exito') {
      Vuelos.removeWhere((Vuelo) => Vuelo.cdigov == int.parse(id));
   notifyListeners();
-  return ;
+  return  ;
 }
 
 
@@ -146,7 +148,7 @@ patchVuelo(String codigov, String origen, String destino, DateTime fecha) async 
 }
 postVuelo(String codigov, String origen, String destino, DateTime fecha ) async {
    final body = {
-    "códigov": "7772",
+    "códigov": codigov,
     "origen": origen,
     "destino": destino,
     "fechav": fecha.toIso8601String().split('T')[0]

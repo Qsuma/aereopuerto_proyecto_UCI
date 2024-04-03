@@ -22,7 +22,7 @@ class BoletoScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                boletoProvider.postBoleto('69', '7007',);
+               // boletoProvider.postBoleto('69', '7007',);
                 // Acción para crear un boleto
               },
               child: Text('Crear Boleto'),
@@ -31,7 +31,7 @@ class BoletoScreen extends StatelessWidget {
               onPressed: () {
                 // Acción para eliminar un boleto
                 // Implementa la lógica aquí
-                boletoProvider.deleteBoletos('69');
+             //   boletoProvider.deleteBoletos('69');
               },
               child: Text('Eliminar Boleto'),
             ),
@@ -39,7 +39,7 @@ class BoletoScreen extends StatelessWidget {
               onPressed: () {
                 // Acción para modificar un boleto
                 // Implementa la lógica aquí
-                boletoProvider.patchBoleto('2','90000', '1929');
+                //boletoProvider.patchBoleto('2','90000', '1119');
               },
               child: Text('Modificar Boleto'),
             ),

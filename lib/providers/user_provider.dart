@@ -1,39 +1,38 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 
 
 
 class UserProvider extends ChangeNotifier {
-  final dio = Dio();
 
+
+final String _baseUrl ='192.168.2.103:80';
 
  
 
   UserProvider();
   Future<Map<String, dynamic>> registerUser(
-      String nombre, String apellido, String correo, String password) async {
+      String id, String nombre, String correo, String password) async {
     final authData = {
-      'name': nombre,
-      'lastname': apellido,
-      'email': correo,
-      'password': password
-    };
-
-    final response = await dio.post(
-        //TODO:URL PARA LOGUIN 
-    '',
-        data: authData);
+    "username":nombre,
+    "email" : correo,
+    "password": password
+};
+final url =Uri.http(_baseUrl,'/core/api/v1/User/',{});
+    final response = await http.post(
+   url,
+        body: authData);
    
-    Map<String, dynamic> decodedResp = json.decode(response.data);
+   
     
 
-    if (decodedResp.containsKey('valid')) {
+    if (response.statusCode ==201||response.statusCode ==200) {
    //  token = decodedResp['valid'].toString();
       return {'ok': true};
     } else {
-      return {'ok': false, 'mensaje': decodedResp['message']};
+      return {'ok': false, 'mensaje': response.reasonPhrase};
     }
     
   }
@@ -41,17 +40,16 @@ class UserProvider extends ChangeNotifier {
  
  
   Future<Map<String, dynamic>> loginUser(String correo, String password) async {
-    Map<String, String> authData = {'email': correo, 'password': password};
+    Map<String, String> authData = {'username': correo, 'password': password};
    
 
     json.encode(authData);
-
-    final response = await dio.post(
-         //TODO:URL PARA LOGUIN
-          '',
-        data: authData);
-    final Map<String, dynamic> decodedResp = json.decode(response.data);
-   if(decodedResp.containsKey('token')){
+    final url =Uri.http(  _baseUrl,"/core/login/");
+    final response = await http.post(
+          url,
+        body: authData);
+    final Map<String, dynamic> decodedResp = json.decode(response.body);
+   if(decodedResp['message']=='Username and password correct'){
   //  _global.Token = decodedResp['token'];
     return { 'ok':true};
     }

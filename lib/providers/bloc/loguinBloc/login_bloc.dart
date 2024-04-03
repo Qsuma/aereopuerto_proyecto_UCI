@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 
 class LoginBloc with Validators {
+  final _usernameController = BehaviorSubject<String>();
   final _nameController = BehaviorSubject<String>();
   final _lastNameController = BehaviorSubject<String>();
   final _emailController = BehaviorSubject<String>();
@@ -13,6 +14,8 @@ class LoginBloc with Validators {
   // Recuperar los datos del Stream
   Stream<String> get emailStream =>
       _emailController.stream.transform(validarEmail);
+  Stream<String> get usernameStream =>
+      _usernameController.stream.transform(validarUsername);
   Stream<String> get passwordStream =>
       _passwordController.stream.transform(validarPassword);
   Stream<String> get nameStream =>
@@ -23,7 +26,7 @@ class LoginBloc with Validators {
   // COmbinación de Streams con RXDart'
 
   Stream<bool> get loginFormValidStream =>
-      Rx.combineLatest2(emailStream, passwordStream, (e, p) => true);
+      Rx.combineLatest2(passwordStream, passwordStream, (e, p) => true);
   Stream<bool> get registerFormValidStream => Rx.combineLatest4(nameStream,
       lastNameStream, emailStream, passwordStream, (n, ln, e, p) => true);
 

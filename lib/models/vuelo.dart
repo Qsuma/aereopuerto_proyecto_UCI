@@ -1,18 +1,18 @@
-import 'package:meta/meta.dart';
+
 import 'dart:convert';
 
 
-class ListarVuelos {
-  ListarVuelos({
+class ListarVueloss {
+  ListarVueloss({
     required this.results,
   });
 
   List<Vuelo> results;
 
-  factory ListarVuelos.fromJson(String str) =>
-      ListarVuelos.fromMap(json.decode(str));
+  factory ListarVueloss.fromJson(String str) =>
+      ListarVueloss.fromMap(json.decode(str));
 
-  factory ListarVuelos.fromMap(List<dynamic> json) => ListarVuelos(
+  factory ListarVueloss.fromMap(List<dynamic> json) => ListarVueloss(
         results: List<Vuelo>.from(json.map((x) => Vuelo.fromJson(x))),
       );
 }

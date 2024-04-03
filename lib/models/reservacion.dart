@@ -1,6 +1,19 @@
 import 'package:meta/meta.dart';
 import 'dart:convert';
+class ListarReservacion {
+  ListarReservacion({
+    required this.results,
+  });
 
+  List<Reservacion> results;
+
+  factory ListarReservacion.fromJson(String str) =>
+      ListarReservacion.fromMap(json.decode(str));
+
+  factory ListarReservacion.fromMap(List<dynamic> json) => ListarReservacion(
+        results: List<Reservacion>.from(json.map((x) => Reservacion.fromJson(x))),
+      );
+}
 class Reservacion {
     int cdigo;
     DateTime fechaCaducidad;
@@ -18,7 +31,7 @@ class Reservacion {
 
     factory Reservacion.fromRawJson(String str) => Reservacion.fromJson(json.decode(str));
 
-    String toRawJson() => json.encode(toJson());
+
 
     factory Reservacion.fromJson(Map<String, dynamic> json) => Reservacion(
         cdigo: json["código"],

@@ -6,6 +6,8 @@
 import 'package:aereopuerto/providers/bloc/loguinBloc/login_bloc.dart';
 import 'package:aereopuerto/providers/bloc/loguinBloc/provider.dart';
 import 'package:aereopuerto/screens/register_screen.dart';
+import 'package:aereopuerto/screens/reservacion_screen.dart';
+import 'package:aereopuerto/screens/vuelos_screen.dart';
 import 'package:aereopuerto/utils/preferencias_usuario.dart';
 import 'package:aereopuerto/utils/route_animation.dart';
 import 'package:aereopuerto/widgets/alarms_dialog.dart';
@@ -67,34 +69,42 @@ class _LoginScreenState extends State<LoginScreen> {
 //TODO: ENVIAR ID
     Map info = await userRegisterProvider.loginUser(_usernameController.text, _passwordController.text);
 
-   if (info['ok']) {
+  
+    if (info['ok']) {
       if (rememberme) {
         SharedPreferences.getInstance().then((prefs) {
-     
           prefs.setString('usuario', _usernameController.text);
           prefs.setString('password', _passwordController.text);
-     
         });
       } else {
         SharedPreferences.getInstance().then((prefs) {
-           prefs.setString('usuario', '');
+          prefs.setString('usuario', '');
           prefs.setString('password', '');
         });
       }
-       
-       Navigator.pushReplacement(
+(_usernameController.text=="reyjesus"||prefs.usuario=="reyjesus")?
+Navigator.pushReplacement(
         context,
         crearRuta(
-          //TODO:HomePage
-            const Text('HomePage'),
+       
+         const VuelosScreen() ,
+            //RegisterScreen(),
+            const Duration(milliseconds: 700)),
+      )
+
+:Navigator.pushReplacement(
+        context,
+        crearRuta(
+        
+         const ReservacionScreen() ,
             //RegisterScreen(),
             const Duration(milliseconds: 700)),
       );
-    }else {
-    
+    } else {
       Alarm().showAlarm(
-          context,'Ups!!!', info['mensaje']);
+          context, 'Ups!!!', info['mensaje']);
     }
+
 
 }
 
@@ -183,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width* 0.40,
+            width: MediaQuery.of(context).size.width* 0.70,
             margin: const EdgeInsets.symmetric(vertical: 30.0),
             padding: const EdgeInsets.symmetric(vertical: 50.0),
             decoration: BoxDecoration(
@@ -203,9 +213,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
+                      
                      'Iniciar Sesión',
+                     maxLines: 1,
                       style: TextStyle(
-                          fontSize: 25.0,
+                        overflow: TextOverflow.ellipsis,
+                          fontSize: 20.0,
                           color: Colors.deepPurple,
                           fontWeight: FontWeight.bold),
                     ), 
@@ -277,7 +290,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _crearEmail(LoginBloc bloc) {
     return StreamBuilder(
-      stream: bloc.emailStream,
+      stream: bloc.passwordStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -287,8 +300,8 @@ class _LoginScreenState extends State<LoginScreen> {
             decoration: InputDecoration(
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-              hintText: 'Inserte su email',
-              labelText: 'Email',
+              hintText: 'Inserte su Nombre de Usuario',
+              labelText: 'Nombre de Usuario',
               errorText: snapshot.error?.toString(),
               suffixIcon: const Icon(Icons.alternate_email),
             ),
@@ -380,12 +393,21 @@ class _LoginScreenState extends State<LoginScreen> {
           prefs.setString('password', '');
         });
       }
-
-      Navigator.pushReplacement(
+(_usernameController.text=="reyjesus"||prefs.usuario=="reyjesus")?
+Navigator.pushReplacement(
         context,
         crearRuta(
-          //TODO: HOMESCREEN
-         const Text('HomeScreen') ,
+       
+         const VuelosScreen() ,
+            //RegisterScreen(),
+            const Duration(milliseconds: 700)),
+      )
+
+:Navigator.pushReplacement(
+        context,
+        crearRuta(
+        
+         const ReservacionScreen() ,
             //RegisterScreen(),
             const Duration(milliseconds: 700)),
       );
